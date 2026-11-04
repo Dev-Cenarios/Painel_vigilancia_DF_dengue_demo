@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
+local*
+.Renviron
+restart.txt
+app_cache/
+Rplot*.png
+.env
+*.pem
+*.key
+Thumbs.db
+desktop.ini

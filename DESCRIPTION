@@ -1,0 +1,42 @@
+Package: PVDengueDF
+Title: Painel de Vigilancia de Dengue - Distrito Federal (demonstracao, dados simulados)
+Version: 0.0.0.9000
+Description: Versao de demonstracao do painel de vigilancia de dengue do
+    Distrito Federal. Usa exclusivamente dados SIMULADOS (nenhum dado real
+    de notificacao), gerados por R/fct_simulacao.R.
+Imports:
+    attempt,
+    bs4Dash,
+    cachem,
+    config,
+    DBI,
+    dplyr,
+    DT,
+    duckdb,
+    fresh,
+    glue,
+    golem,
+    htmltools,
+    htmlwidgets,
+    jsonlite,
+    leaflet,
+    lubridate,
+    plotly,
+    purrr,
+    reactable,
+    rlang,
+    scales,
+    sf,
+    shiny,
+    shinyjs,
+    shinyWidgets,
+    tibble,
+    shinytoastr
+Encoding: UTF-8
+LazyData: true
+Suggests:
+    spelling,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Language: en-US
+Config/roxygen2/version: 8.0.0

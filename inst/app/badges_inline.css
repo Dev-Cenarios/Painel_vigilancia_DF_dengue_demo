@@ -1,0 +1,616 @@
+ .rt-td, .rt-tr-group {
+  overflow: visible !important;
+}
+
+.rt-tr-group:hover {
+  z-index: 9999 !important;
+  position: relative; /* This 'activates' the z-index */
+}
+
+ /* Styling the ID part to look interactive */
+.id-trigger {
+  font-weight: bold;
+  text-decoration: underline dotted;
+  cursor: help;
+  position: relative; /* Essential for positioning the tooltip */
+}
+
+/* Creating the Tooltip Box */
+.id-trigger::after {
+  content: attr(data-tooltip); /* Pulls text from the data-tooltip attribute */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  z-index: 10000;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: normal;
+  visibility: hidden; /* Hidden by default */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Showing the Tooltip on Hover */
+.id-trigger:hover::after {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Cabeçalho na cor navy do painel de referência (sevsrecife.github.io/modelodashboard) */
+.main-header.navbar {
+  background-color: #12346B !important;
+}
+
+/* Texto branco nos títulos das caixas com cabeçalho sólido "primary"
+   (Mapa de casos, Tabela de casos) */
+.card.bg-primary > .card-header,
+.card-primary > .card-header,
+.card.bg-primary .card-title,
+.card-primary .card-title,
+.card.bg-primary .card-header i,
+.card-primary .card-header i {
+  color: #FFF !important;
+}
+/* ...exceto a caixa de filtros, que nao tem cabecalho solido (fundo branco) */
+.card-primary[id$="box_filtro"] .card-title,
+.card-primary[id$="box_filtro"] .card-header i {
+  color: #12346B !important;
+}
+
+/* KPIs acima do mapa (R/mod_municipio.R, kpis): cartoes compactos numa linha
+   so', pra caber junto com o mapa na tela sem rolar. Paleta alinhada ao
+   painel de referência (sevsrecife.github.io/modelodashboard). */
+.pv-kpis {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 8px;
+}
+.pv-kpi {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border-radius: 10px;
+  color: #FFF;
+  box-shadow: 0 1px 3px rgba(18, 52, 107, 0.18);
+}
+.pv-kpi-icone {
+  flex: 0 0 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 16px;
+}
+.pv-kpi-texto {
+  min-width: 0;
+  line-height: 1.15;
+}
+.pv-kpi-valor {
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.pv-kpi-rotulo,
+.pv-kpi-detalhe {
+  font-size: 0.78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.92;
+}
+.pv-kpi-detalhe {
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+/* todos sao clicaveis: mostram no mapa so' os casos do cartao */
+.pv-kpi {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.15s ease, filter 0.15s ease;
+}
+.pv-kpi:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(18, 52, 107, 0.32);
+}
+.pv-kpi:focus-visible {
+  outline: 2px solid #12346B;
+  outline-offset: 2px;
+}
+/* botao redondo no canto ("ver no mapa"); vira "x" no cartao selecionado.
+   Pulsa duas vezes ao abrir o painel, pra chamar a atencao pro clique. */
+.pv-kpi-acao {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  animation: pv-kpi-pulso 1.6s ease-out 0.8s 2;
+}
+.pv-kpi:hover .pv-kpi-acao {
+  background: #FFF;
+  color: #12346B;
+  transform: scale(1.12);
+}
+.pv-kpi-acao-limpar,
+.pv-kpi.ativo .pv-kpi-acao-ver { display: none; }
+.pv-kpi.ativo .pv-kpi-acao-limpar { display: inline-block; }
+.pv-kpi.ativo .pv-kpi-acao {
+  background: #FFF;
+  color: #12346B;
+  animation: none;
+}
+@keyframes pv-kpi-pulso {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+  100% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pv-kpi-acao { animation: none; }
+}
+/* com um cartao selecionado, os outros ficam apagados */
+.pv-kpis.com-selecao .pv-kpi:not(.ativo) {
+  opacity: 0.45;
+  filter: saturate(0.6);
+}
+.pv-kpis.com-selecao .pv-kpi:not(.ativo):hover { opacity: 0.8; }
+.pv-kpi.ativo {
+  box-shadow: 0 0 0 3px #FFF, 0 0 0 5px #12346B, 0 4px 10px rgba(18, 52, 107, 0.35);
+}
+/* filtros ativos / KPI clicado, sobre o mapa (embaixo, no centro) */
+.pv-mapa-filtros {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  max-width: 60%;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.pv-mapa-filtros > span {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(18, 52, 107, 0.92);
+  color: #FFF;
+  font-size: 0.82rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.pv-mapa-filtros > span > .fa,
+.pv-mapa-filtros > span > svg { margin-right: 6px; }
+/* "Voltar a visualizacao geral", logo abaixo da etiqueta */
+.pv-mapa-voltar {
+  pointer-events: auto;
+  border: 1.5px solid #12346B;
+  border-radius: 999px;
+  background: #FFF;
+  color: #12346B;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+}
+.pv-mapa-voltar:hover { background: #12346B; color: #FFF; }
+.pv-mapa-voltar > .fa,
+.pv-mapa-voltar > svg { margin-right: 6px; }
+/* botao de centralizar (acima do zoom) */
+.pv-centralizar a { font-size: 14px; color: #12346B; }
+
+/* seta que recolhe a caixa de filtros */
+.pv-filtro-fechar.btn {
+  font-size: 15px;
+  color: #12346B;
+  padding: 2px 8px;
+}
+.pv-filtro-fechar.btn:hover { color: #1E73BE; }
+.pv-kpi-total        { background: linear-gradient(195deg, #3D8FD6, #1E73BE 60%); }
+.pv-kpi-investigacao { background: linear-gradient(195deg, #6FA6FF, #4A8EFF 60%); }
+.pv-kpi-cura         { background: linear-gradient(195deg, #2A4F8F, #12346B 60%); }
+.pv-kpi-obitos       { background: linear-gradient(195deg, #C24A1F, #A62F08 60%); }
+.pv-kpi-grave        { background: linear-gradient(195deg, #E8632F, #DB400A 60%); }
+.pv-kpi-alarme       { background: linear-gradient(195deg, #7F6BD6, #5B45C2 60%); }
+.pv-kpi-gestante     { background: linear-gradient(195deg, #C9457E, #A8305F 60%); }
+
+/* telas estreitas: a linha rola de lado em vez de espremer os cartoes */
+@media (max-width: 991px) {
+  .pv-kpis { overflow-x: auto; }
+  .pv-kpi { flex: 0 0 150px; }
+}
+
+/* Marcadores de RA no mapa de casos (inst/app/www/casos_layer.js):
+   chip escuro com a contagem e uma ponta apontando o local; ao passar o
+   mouse, expande e mostra o nome da RA. */
+.pv-ra-marcador {
+  background: none;
+  border: none;
+}
+.pv-ra-chip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, calc(-100% - 6px));
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.88);
+  color: #fff;
+  font: 700 11.5px/1.2 "Source Sans Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease, padding 0.15s ease;
+}
+/* ponta do balao */
+.pv-ra-chip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  transform: translateX(-50%) rotate(45deg);
+  border-radius: 0 0 2px 0;
+  box-shadow: 1px 1px 0 0 rgba(255, 255, 255, 0.6);
+}
+.pv-ra-nome {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  font-weight: 600;
+  transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease;
+}
+.pv-ra-marcador:hover .pv-ra-chip {
+  background: #12346B;
+  transform: translate(-50%, calc(-100% - 8px)) scale(1.06);
+  padding: 5px 11px;
+}
+.pv-ra-marcador:hover .pv-ra-nome {
+  max-width: 220px;
+  opacity: 1;
+  margin-right: 7px;
+}
+/* intensidade relativa: pequena barra na base do chip */
+.pv-ra-barra {
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  bottom: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+.pv-ra-barra > span {
+  display: block;
+  height: 100%;
+  background: #fbbf24;
+}
+
+/* ---------------------------------------------------------------------------
+   Painel flutuante dentro do mapa (comportamento em inst/app/www/painel_mapa.js)
+   --------------------------------------------------------------------------- */
+.pv-mapa-wrap {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+/* a altura do mapa acompanha a tela (R/mod_municipio.R); em telas baixas
+   para aqui e a pagina rola */
+.pv-mapa-wrap > .leaflet {
+  min-height: 420px;
+}
+.pv-painel {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
+  width: 340px;
+  max-height: calc(100% - 24px);
+  display: flex;
+  flex-direction: column;
+  /* fundo quase opaco, sem backdrop-filter: o desfoque seria recalculado a
+     cada quadro enquanto o mapa se move por baixo */
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(15, 23, 42, 0.06);
+  transition: width 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+.pv-painel-topo {
+  flex: 0 0 auto;
+}
+.pv-painel-alternar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 0;
+  background: #12346B;
+  color: #fff;
+  font: 600 14px/1.2 "Source Sans Pro", system-ui, sans-serif;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  text-align: left;
+}
+.pv-painel-alternar:hover {
+  background: #0f2b59;
+}
+.pv-painel-titulo {
+  flex: 1 1 auto;
+  white-space: nowrap;
+}
+.pv-painel-seta {
+  transition: transform 0.2s ease;
+  opacity: 0.85;
+}
+.pv-painel-corpo {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 6px 12px 12px;
+}
+.pv-painel-corpo::-webkit-scrollbar {
+  width: 8px;
+}
+.pv-painel-corpo::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.2);
+  border-radius: 8px;
+}
+
+/* recolhido: vira so' a barra (pilula) */
+.pv-painel.recolhido {
+  width: 190px;
+}
+.pv-painel.recolhido .pv-painel-corpo {
+  display: none;
+}
+.pv-painel.recolhido .pv-painel-seta {
+  transform: rotate(180deg);
+}
+
+/* secoes recolhiveis */
+.pv-secao {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+.pv-secao:last-child {
+  border-bottom: 0;
+}
+.pv-secao > summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 2px;
+  font: 700 14.5px/1.2 "Source Sans Pro", system-ui, sans-serif;
+  color: #0f172a;
+  cursor: pointer;
+  user-select: none;
+}
+.pv-secao > summary::-webkit-details-marker {
+  display: none;
+}
+.pv-secao > summary .fa,
+.pv-secao > summary .fas,
+.pv-secao > summary svg {
+  color: #12346B;
+  width: 16px;
+}
+.pv-secao > summary::after {
+  content: "";
+  margin-left: auto;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #64748b;
+  border-bottom: 2px solid #64748b;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+.pv-secao[open] > summary::after {
+  transform: rotate(-135deg);
+}
+.pv-secao-conteudo {
+  padding: 2px 2px 12px;
+}
+.pv-secao-conteudo p {
+  margin-bottom: 6px;
+}
+.pv-secao-conteudo .form-group {
+  margin-bottom: 10px;
+}
+.pv-secao-conteudo label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+.pv-secao-conteudo select.form-control {
+  font-size: 13px;
+  border-radius: 8px;
+}
+.pv-secao-conteudo .btn-group .btn {
+  font-size: 12px;
+}
+.pv-secao-conteudo .ReactTable,
+.pv-secao-conteudo .rt-table {
+  font-size: 13px;
+  background: transparent;
+}
+
+/* telas estreitas: painel ocupa quase toda a largura */
+@media (max-width: 640px) {
+  .pv-painel {
+    width: calc(100% - 24px);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Janela flutuante do periodo (dentro do mapa, no topo ao centro)
+   --------------------------------------------------------------------------- */
+.pv-janela-periodo {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px 7px 14px;
+  /* fundo quase opaco, sem backdrop-filter: o desfoque seria recalculado a
+     cada quadro enquanto o mapa se move por baixo */
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 999px;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(15, 23, 42, 0.06);
+  white-space: nowrap;
+}
+.pv-janela-rotulo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font: 700 13px/1.2 "Source Sans Pro", system-ui, sans-serif;
+  color: #12346B;
+}
+.pv-janela-periodo .form-group {
+  margin: 0;
+}
+.pv-janela-periodo .input-daterange input {
+  height: 30px;
+  font-size: 13px;
+  border-radius: 8px;
+  text-align: center;
+}
+.pv-janela-periodo .input-daterange .input-group-addon,
+.pv-janela-periodo .input-daterange .input-group-text {
+  font-size: 12px;
+  padding: 0 8px;
+  background: transparent;
+  border: 0;
+}
+.pv-janela-botao.btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 5px 14px;
+  font: 600 13px/1.2 "Source Sans Pro", system-ui, sans-serif;
+  background: #12346B;
+  color: #fff;
+}
+.pv-janela-botao.btn:hover,
+.pv-janela-botao.btn:focus {
+  background: #0f2b59;
+  color: #fff;
+}
+/* botao do ano vigente: contorno; preenchido enquanto o periodo e' o ano inteiro */
+.pv-janela-ano.btn {
+  border: 1.5px solid #12346B;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font: 700 13px/1.2 "Source Sans Pro", system-ui, sans-serif;
+  background: transparent;
+  color: #12346B;
+}
+.pv-janela-ano.btn:hover,
+.pv-janela-ano.btn:focus {
+  background: rgba(18, 52, 107, 0.08);
+  color: #12346B;
+}
+.pv-janela-ano.btn.ativo {
+  background: #12346B;
+  color: #fff;
+}
+/* o calendario do filtro de data fica acima do mapa */
+.datepicker.dropdown-menu {
+  z-index: 1100 !important;
+}
+
+/* telas medias: a janela de periodo desce para nao cobrir o painel */
+@media (max-width: 1100px) {
+  .pv-janela-periodo {
+    top: auto;
+    bottom: 12px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Abas (Mapa / Indicadores / Tabela de casos)
+   --------------------------------------------------------------------------- */
+.pv-abas > .tabbable > .nav-pills,
+.pv-abas > .nav-pills {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 14px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+}
+/* o Shiny gera as abas como li > a (li.active na aba atual) */
+.pv-abas .nav-pills > li > a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 9px;
+  padding: 8px 18px;
+  font: 600 14.5px/1.2 "Source Sans Pro", system-ui, sans-serif;
+  color: #334155;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.pv-abas .nav-pills > li > a:hover {
+  background: #eef2f7;
+  color: #12346B;
+}
+.pv-abas .nav-pills > li.active > a,
+.pv-abas .nav-pills > li > a.active {
+  background: #12346B;
+  color: #fff;
+}
+
+/* resumo de periodo/filtros nas abas sem o mapa */
+.pv-resumo-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  background: #fff;
+  border-left: 4px solid #12346B;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.1);
+  font-size: 14px;
+  color: #334155;
+}
+.pv-resumo-filtros > .fa,
+.pv-resumo-filtros > svg {
+  color: #12346B;
+}
+.pv-resumo-filtros a {
+  margin-left: auto;
+  font-weight: 600;
+}
