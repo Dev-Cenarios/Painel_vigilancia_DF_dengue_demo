@@ -1030,7 +1030,23 @@ mod_municipio_server <- function(id, chosen_municipio, cache_trigger = shiny::re
         format(periodo()[1], "%d/%m/%Y"), " à ", format(periodo()[2], "%d/%m/%Y")
       )
 
-      htmltools::strong(title)
+      htmltools::tagList(
+        htmltools::strong(title),
+        # Link para o codigo do projeto (versao de demonstracao)
+        htmltools::tags$a(
+          href = "https://github.com/Dev-Cenarios",
+          target = "_blank",
+          rel = "noopener noreferrer",
+          title = "Abrir o GitHub do Projeto CENÁRIOS em nova aba",
+          style = paste(
+            "margin-left: 14px; padding: 2px 10px; border: 1px solid rgba(255,255,255,.7);",
+            "border-radius: 12px; color: #FFFFFF; font-size: 13px; font-weight: 600;",
+            "text-decoration: none; white-space: nowrap;"
+          ),
+          shiny::icon("github"),
+          " Acesse o código no GitHub"
+        )
+      )
     })
 
     # Texto dos filtros ativos (alem do periodo) -- usado no subtitulo do mapa

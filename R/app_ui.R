@@ -16,9 +16,10 @@ app_ui <- function(request) {
         skin = "dark",
         shiny::column(
           3,
-          # (sem logos nesta versao de demonstracao; coluna mantida para o
-          # titulo continuar centralizado)
-          htmltools::div()
+          htmltools::div(
+            style = "display: flex; align-items: center; gap: 10px;",
+            htmltools::img(src = "www/cenarios_logo_full.png", height = "40px", style = "margin-top: 4px;")
+          )
         ),
 
         htmltools::div(
