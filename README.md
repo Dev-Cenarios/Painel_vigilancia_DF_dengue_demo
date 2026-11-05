@@ -1,4 +1,4 @@
-# Painel de Vigilância de Dengue — DF · **versão de demonstração**
+# Painel de Vigilância de Dengue · **versão de demonstração**
 
 > 🧪 **Somente dados simulados.** Esta é uma vitrine (*showcase*) do
 > [Painel de Vigilância de Dengue do DF](https://github.com/InVictorLopes/Dengue_vigilancia_df).
@@ -86,9 +86,10 @@ real.
 | `R/fct_db_update.R` | `update_dengue_data()` sorteia nova base em vez de ler o PostgreSQL. ETL inalterado. |
 | `R/fct_data_cache.R` | Gera a base simulada automaticamente se `local/` estiver vazia. |
 | `R/app_server.R` | Aviso de demonstração na abertura; botão de atualização sem senha. |
-| `R/app_ui.R` | Selo "DEMONSTRAÇÃO · DADOS SIMULADOS" no cabeçalho. |
+| `R/app_ui.R` | Cabeçalho descaracterizado (sem bandeira, logos nem nome da cidade) e selo "DEMONSTRAÇÃO · DADOS SIMULADOS". |
+| `R/mod_municipio.R` | Título do mapa e botão de centralizar sem nome de local. |
 | `DESCRIPTION` | Sem `RPostgres`. |
-| removidos | `.Renviron.example`, `dev/setup_databases.R`, `dev/build_unidades_cnes.R`. |
+| removidos | `.Renviron.example`, `dev/setup_databases.R`, `dev/build_unidades_cnes.R`, `www/bandeira_df.png`, `www/cenarios_logo_full.png`. |
 
 A documentação completa da metodologia (indicadores, estratificação de risco,
 desempenho, publicação) está no

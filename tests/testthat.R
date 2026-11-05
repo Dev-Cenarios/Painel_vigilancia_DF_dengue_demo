@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(UnBmonitorTB)
+library(PVDengueDF)
 
-test_check("UnBmonitorTB")
+test_check("PVDengueDF")

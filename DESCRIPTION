@@ -1,8 +1,8 @@
 Package: PVDengueDF
-Title: Painel de Vigilancia de Dengue - Distrito Federal (demonstracao, dados simulados)
+Title: Painel de Vigilancia de Dengue (demonstracao, dados simulados)
 Version: 0.0.0.9000
-Description: Versao de demonstracao do painel de vigilancia de dengue do
-    Distrito Federal. Usa exclusivamente dados SIMULADOS (nenhum dado real
+Description: Versao de demonstracao de um painel de vigilancia de dengue.
+    Usa exclusivamente dados SIMULADOS (nenhum dado real
     de notificacao), gerados por R/fct_simulacao.R.
 Imports:
     attempt,

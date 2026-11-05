@@ -1025,16 +1025,8 @@ mod_municipio_server <- function(id, chosen_municipio, cache_trigger = shiny::re
 
     output$main_map_title <- shiny::renderUI({
 
-      mun <- chosen_municipio()
-
-      location <- dplyr::case_when(
-        mun == "brasilia" ~ "Brasília - DF",
-        TRUE ~ "Município"
-      )
-
       title <- paste0(
-        "Mapa de casos de dengue em ",
-        location, ", de ",
+        "Mapa de casos de dengue, de ",
         format(periodo()[1], "%d/%m/%Y"), " à ", format(periodo()[2], "%d/%m/%Y")
       )
 
@@ -1281,7 +1273,7 @@ mod_municipio_server <- function(id, chosen_municipio, cache_trigger = shiny::re
               var bar = L.DomUtil.create('div', 'leaflet-bar pv-centralizar');
               var a = L.DomUtil.create('a', '', bar);
               a.href = '#'; a.role = 'button';
-              a.title = 'Centralizar no DF'; a.setAttribute('aria-label', 'Centralizar no DF');
+              a.title = 'Centralizar o mapa'; a.setAttribute('aria-label', 'Centralizar o mapa');
               a.innerHTML = '<i class=\"fas fa-crosshairs\"></i>';
               L.DomEvent.disableClickPropagation(bar);
               L.DomEvent.on(a, 'click', function(e) {

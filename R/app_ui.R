@@ -16,17 +16,15 @@ app_ui <- function(request) {
         skin = "dark",
         shiny::column(
           3,
-          htmltools::div(
-            style = "display: flex; align-items: center; gap: 10px;",
-            htmltools::img(src = "www/bandeira_df.png", height = "40px", style = "margin-top: 4px;"),
-            htmltools::img(src = "www/cenarios_logo_full.png", height = "40px", style = "margin-top: 4px;")
-          )
+          # (sem logos nesta versao de demonstracao; coluna mantida para o
+          # titulo continuar centralizado)
+          htmltools::div()
         ),
 
         htmltools::div(
           style = "flex: 1 1 auto; display: flex; align-items: center; justify-content: center;",
           htmltools::h4(
-            "Dengue - Brasília - DF",
+            "Painel de Vigilância de Dengue",
             style = "color: #FFFFFF; margin: 0; font-weight: 600; white-space: nowrap;"
           ),
           htmltools::span(
@@ -106,7 +104,7 @@ golem_add_external_resources <- function() {
     fresh::use_theme(app_theme),
     golem::bundle_resources(
       path = app_sys("app/www"),
-      app_title = "Dengue - Brasília - DF (demonstração)",
+      app_title = "Painel de Vigilância de Dengue (demonstração)",
       # versao = data da ultima alteracao dos arquivos de www/: o endereco
       # dos .js/.css muda a cada atualizacao do painel e o navegador nunca
       # fica com uma versao antiga em cache

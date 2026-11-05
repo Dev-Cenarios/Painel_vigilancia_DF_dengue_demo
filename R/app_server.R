@@ -28,9 +28,9 @@ app_server <- function(input, output, session, chosen_municipio) {
         "notificações, pacientes, endereços, coordenadas e unidades ",
         "notificadoras foram <b>sorteados por computador</b> e não ",
         "correspondem a pessoas nem a casos reais.</p>",
-        "<p>Os números <b>não representam</b> a situação epidemiológica do ",
-        "Distrito Federal. Apenas as malhas territoriais e a população ",
-        "(IBGE, Censo 2022) são dados públicos reais.</p>"
+        "<p>Os números <b>não representam</b> nenhuma situação ",
+        "epidemiológica real. Apenas as malhas territoriais e a população ",
+        "(IBGE, Censo 2022) são dados públicos.</p>"
       )),
       easyClose = TRUE,
       footer = shiny::modalButton("Entendi")

@@ -228,7 +228,7 @@ simular_sinan <- function(seed = SIMULACAO_SEMENTE,
 
   # ---------------------------------------------------------- tabela ----
   logradouro <- ifelse(sem_endereco, "SEM ENDERECO", paste("Logradouro fictício", sample(1:999, n, replace = TRUE)))
-  endereco <- ifelse(sem_endereco, NA_character_, paste0(logradouro, ", ", ra_caso, " - DF (endereço simulado)"))
+  endereco <- ifelse(sem_endereco, NA_character_, paste0(logradouro, ", ", ra_caso, " (endereço simulado)"))
 
   sinan <- data.frame(
     NU_NOTIFIC = sprintf("%07d", seq_len(n)),
